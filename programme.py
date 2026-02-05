@@ -208,8 +208,8 @@ bouton_affichez_pokemon.place(x=170,y=450,width=150, height=20)
 
 #création de la grille d'affichage (tableau)
 tree = Treeview(fenetre, columns=('HP', 'Type'))
- 
- # Set the heading (Attribute Names)
+
+# Set the heading (Attribute Names)
 tree.heading('#0', text='Pokemon')
 tree.heading('#1', text='HP')
 tree.heading('#2', text='Type')
