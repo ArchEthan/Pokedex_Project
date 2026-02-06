@@ -119,7 +119,7 @@ def AffichezListePokemon():
 #création de la fenetre Tkinter
 fenetre=Tk()
 #permet de modifier la taille de la fenétre
-fenetre.geometry("800x800")
+fenetre.geometry("1900x1000")
 fenetre.configure(bg='#ebff5c')
 #On crée un label(lignedetexte) souhaitant la bienvenue
 #Note:lepremier paramètre passé au constructeur de Label est notre fenétre
@@ -224,8 +224,3 @@ tree.place(x=20,y=490,width=351, height=150)
 
 #On démarre la boucle Tkinter qui s'interrompt quand on ferme la fenêtre
 fenetre.mainloop()
-
-
-
-
-
