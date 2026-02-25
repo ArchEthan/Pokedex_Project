@@ -1,27 +1,23 @@
-# programme.py
-# Pokédex principal — recherche par nom ou par type + fenêtre de combat
-
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 import sqlite3
 from fenetre_combat import FenetreCombat
 
-# Widgets tkinter classiques (supportent bg=, fg=, font=)
+## Widgets tk uniquement
 Label     = tk.Label
 Button    = tk.Button
 Entry     = tk.Entry
 StringVar = tk.StringVar
 Scrollbar = tk.Scrollbar
 YES       = tk.YES
-# Widgets ttk uniquement (n'existent pas dans tkinter classique)
+
+# Widgets ttk uniquement
 Combobox  = ttk.Combobox
 Treeview  = ttk.Treeview
 
 
-# ============================================================
-# FONCTIONS BDD
-# ============================================================
+# ----------------------------FONCTIONS BDD----------------------------
 
 def connexion():
     try:
@@ -58,8 +54,7 @@ def AfficherDetailsPokemon(nom_pokemon):
     conn = connexion()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT p.nom, p.HP, p.attaque, p.defense, p.attaque_spe,
-               p.defense_spe, p.vitesse, p.url_image, t.libelle_type
+        SELECT p.nom, p.HP, p.attaque, p.defense, p.attaque_spe, p.defense_spe, p.vitesse, p.url_image, t.libelle_type
         FROM pokemon p
         INNER JOIN type t ON t.idType = p.idType
         WHERE p.nom = ?;
@@ -73,7 +68,7 @@ def RechercherPokemons(recherche_nom, filtre_type):
     """Recherche dans le tableau par nom ET/OU type.
     - recherche_nom : texte libre (peut être vide)
     - filtre_type   : libelle_type exact, ou '' pour tous les types
-    Retourne [(idPokemon, nom, HP, libelle_type), ...]
+    - Retourne [(idPokemon, nom, HP, libelle_type), ...]
     """
     conn = connexion()
     cursor = conn.cursor()
@@ -99,9 +94,7 @@ def RechercherPokemons(recherche_nom, filtre_type):
     return data
 
 
-# ============================================================
-# FONCTIONS D'AFFICHAGE
-# ============================================================
+# ----------------------------FONCTIONS D'AFFICHAGE----------------------------
 
 def AffichezPokemon():
     """Affiche la fiche du pokémon sélectionné dans la Combobox."""
@@ -111,7 +104,7 @@ def AffichezPokemon():
     data = AfficherDetailsPokemon(nom)
     if not data:
         return
-    # data = (nom, HP, attaque, defense, attaque_spe, defense_spe, vitesse, url_image, type)
+    # details pokemon = (nom, HP, attaque, defense, attaque_spe, defense_spe, vitesse, url_image, type)
     value_label_nom.set(data[0])
     value_label_type.set(f"Type : {data[8]}")
     value_label_hp.set(f"HP : {data[1]}")
@@ -126,13 +119,13 @@ def AffichezPokemon():
         lien_image = "images/" + str(data[7])
         img_pil = Image.open(lien_image)
         # Les images sont en mode P (palette PNG) avec un index de transparence.
-        # Il faut convertir en RGBA AVANT le resize pour préserver la transparence.
+        # Il faut convertir en RGBA avant le resize pour préserver la transparence.
         img_pil = img_pil.convert("RGBA")
         img_pil = img_pil.resize((180, 180), Image.LANCZOS)
         bg_hex = fenetre.cget('bg').lstrip('#')
         bg_rgb = tuple(int(bg_hex[i:i+2], 16) for i in (0, 2, 4))
         fond = Image.new("RGB", img_pil.size, bg_rgb)
-        fond.paste(img_pil, mask=img_pil.split()[3])  # canal alpha comme masque
+        fond.paste(img_pil, mask=img_pil.split()[3])
         img_tk = ImageTk.PhotoImage(fond)
         image_pokemon.configure(image=img_tk)
         image_pokemon.image = img_tk
@@ -168,9 +161,7 @@ def OuvrirCombat():
     FenetreCombat(fenetre)
 
 
-# ============================================================
-# FENÊTRE PRINCIPALE
-# ============================================================
+# ----------------------------FENÊTRE PRINCIPALE----------------------------
 
 fenetre = tk.Tk()
 fenetre.title("Pokédex — 1ère Génération")
@@ -178,9 +169,8 @@ fenetre.geometry("1000x700")
 fenetre.configure(bg='#ebff5c')
 fenetre.resizable(False, False)
 
-# ============================================================
-# BARRE DU HAUT : sélection pokémon individuel + bouton combat
-# ============================================================
+# ----------------------------BARRE DU HAUT----------------------------
+# -------------sélection pokémon individuel + bouton combat-------------
 
 Label(fenetre, text="Fiche Pokémon :", font=("Arial", 11, "bold"),
       bg='#ebff5c').place(x=30, y=10)
@@ -196,20 +186,15 @@ Button(fenetre, text="Afficher", command=AffichezPokemon
 Button(fenetre, text="⚔️  Lancer un Combat", command=OuvrirCombat
        ).place(x=360, y=35, width=180, height=24)
 
-# ============================================================
-# FICHE DÉTAILLÉE (gauche) + IMAGE (droite)
-# ============================================================
+# ----------------------------FICHE DÉTAILLÉE (gauche) + IMAGE (droite)----------------------------
 
 value_label_nom = StringVar()
-Label(fenetre, textvariable=value_label_nom,
-      font=("Arial", 14, "bold"), bg='#ebff5c').place(x=30, y=85, width=210)
+Label(fenetre, textvariable=value_label_nom, font=("Arial", 14, "bold"), bg='#ebff5c').place(x=30, y=85, width=210)
 
 value_label_type = StringVar()
-Label(fenetre, textvariable=value_label_type,
-      font=("Arial", 10, "italic"), bg='#ebff5c').place(x=30, y=112, width=210)
+Label(fenetre, textvariable=value_label_type, font=("Arial", 10, "italic"), bg='#ebff5c').place(x=30, y=112, width=210)
 
-Label(fenetre, text="Statistiques :", font=("Arial", 10, "bold"),
-      bg='#ebff5c').place(x=30, y=140)
+Label(fenetre, text="Statistiques :", font=("Arial", 10, "bold"), bg='#ebff5c').place(x=30, y=140)
 
 value_label_hp      = StringVar()
 value_label_attaque = StringVar()
@@ -218,24 +203,19 @@ value_label_atk_spe = StringVar()
 value_label_def_spe = StringVar()
 value_label_vitesse = StringVar()
 
-for i, var in enumerate([value_label_hp, value_label_attaque, value_label_defense,
-                          value_label_atk_spe, value_label_def_spe, value_label_vitesse]):
+for i, var in enumerate([value_label_hp, value_label_attaque, value_label_defense, value_label_atk_spe, value_label_def_spe, value_label_vitesse]):
     Label(fenetre, textvariable=var, bg='#ebff5c').place(x=30, y=162 + i * 22, width=210)
 
 image_pokemon = Label(fenetre, image="", bg='#ebff5c')
 image_pokemon.place(x=260, y=85, width=180, height=180)
 
-# ============================================================
-# ZONE DE RECHERCHE DANS LE TABLEAU
-# ============================================================
+# ----------------------------ZONE DE RECHERCHE DANS LE TABLEAU----------------------------
 
-Label(fenetre, text="Rechercher dans la liste :", font=("Arial", 11, "bold"),
-      bg='#ebff5c').place(x=30, y=305)
+Label(fenetre, text="Rechercher dans la liste :", font=("Arial", 11, "bold"),bg='#ebff5c').place(x=30, y=305)
 
 Label(fenetre, text="Nom :", bg='#ebff5c').place(x=30, y=333)
 var_texte_recherche = StringVar()
-Entry(fenetre, textvariable=var_texte_recherche
-      ).place(x=80, y=333, width=160, height=24)
+Entry(fenetre, textvariable=var_texte_recherche).place(x=80, y=333, width=160, height=24)
 
 Label(fenetre, text="Type :", bg='#ebff5c').place(x=260, y=333)
 types_liste = ["Tous les types"] + RemplirListeDeroulanteTypes()
@@ -243,18 +223,13 @@ combo_filtre_type = Combobox(fenetre, values=types_liste, state="readonly")
 combo_filtre_type.set("Tous les types")
 combo_filtre_type.place(x=310, y=333, width=150, height=24)
 
-Button(fenetre, text="🔍 Rechercher", command=AffichezListePokemon
-       ).place(x=475, y=333, width=130, height=24)
-Button(fenetre, text="✖ Réinitialiser", command=ReinitialiserRecherche
-       ).place(x=620, y=333, width=130, height=24)
+Button(fenetre, text="🔍 Rechercher", command=AffichezListePokemon).place(x=475, y=333, width=130, height=24)
+Button(fenetre, text="✖ Réinitialiser", command=ReinitialiserRecherche).place(x=620, y=333, width=130, height=24)
 
 var_compteur = StringVar(value="")
-Label(fenetre, textvariable=var_compteur,
-      font=("Arial", 9, "italic"), bg='#ebff5c').place(x=770, y=337)
+Label(fenetre, textvariable=var_compteur, font=("Arial", 9, "italic"), bg='#ebff5c').place(x=770, y=337)
 
-# ============================================================
-# TABLEAU DE RÉSULTATS
-# ============================================================
+# ----------------------------TABLEAU DE RÉSULTATS----------------------------
 
 tree = Treeview(fenetre, columns=('HP', 'Type'))
 tree.heading('#0', text='Pokémon')
@@ -269,9 +244,7 @@ scrollbar = Scrollbar(fenetre, orient=tk.VERTICAL, command=tree.yview)
 tree.configure(yscrollcommand=scrollbar.set)
 scrollbar.place(x=960, y=370, height=290)
 
-# ============================================================
-# CHARGEMENT INITIAL
-# ============================================================
+# ----------------------------CHARGEMENT INITIAL----------------------------
 
 AffichezPokemon()       # fiche du 1er pokémon
 AffichezListePokemon()  # tous les pokémon dans le tableau

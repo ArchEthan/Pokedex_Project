@@ -19,9 +19,7 @@ Combobox   = ttk.Combobox
 Progressbar = ttk.Progressbar
 
 
-# ============================================================
-# FONCTIONS BDD
-# ============================================================
+# ----------------------------FONCTIONS BDD----------------------------
 
 def connexion():
     try:
@@ -75,9 +73,7 @@ def get_pokemon_sauvage_aleatoire():
     return data
 
 
-# ============================================================
-# CLASSE FENÊTRE DE COMBAT
-# ============================================================
+# ----------------------------CLASSE FENÊTRE DE COMBAT----------------------------
 
 class FenetreCombat:
 
@@ -106,26 +102,20 @@ class FenetreCombat:
         self._construire_interface()
         self._charger_dresseurs()
 
-    # ----------------------------------------------------------
-    # INTERFACE
-    # ----------------------------------------------------------
+    # ----------------------------INTERFACE----------------------------
 
     def _construire_interface(self):
         bg, fg, accent, bleu = self.BG, self.FG, self.ACCENT, self.BLEU
 
-        Label(self.fenetre, text="⚔️  COMBAT POKÉMON  ⚔️",
-              font=("Courier", 18, "bold"), bg=bg, fg=accent
-              ).place(x=0, y=10, width=820)
+        Label(self.fenetre, text="⚔️  COMBAT POKÉMON  ⚔️", font=("Courier", 18, "bold"), bg=bg, fg=accent).place(x=0, y=10, width=820)
 
         # ---- CÔTÉ JOUEUR (gauche) ----
-        Label(self.fenetre, text="Dresseur :", font=("Courier", 10), bg=bg, fg=fg
-              ).place(x=30, y=55)
+        Label(self.fenetre, text="Dresseur :", font=("Courier", 10), bg=bg, fg=fg).place(x=30, y=55)
         self.combo_dresseur = Combobox(self.fenetre, state="readonly")
         self.combo_dresseur.place(x=30, y=75, width=210, height=26)
         self.combo_dresseur.bind("<<ComboboxSelected>>", self._on_dresseur_selectionne)
 
-        Label(self.fenetre, text="Pokémon :", font=("Courier", 10), bg=bg, fg=fg
-              ).place(x=30, y=112)
+        Label(self.fenetre, text="Pokémon :", font=("Courier", 10), bg=bg, fg=fg).place(x=30, y=112)
         self.combo_pokemon = Combobox(self.fenetre, state="readonly")
         self.combo_pokemon.place(x=30, y=132, width=210, height=26)
 
@@ -133,74 +123,60 @@ class FenetreCombat:
         self.img_joueur.place(x=65, y=168, width=120, height=120)
 
         self.var_nom_joueur = StringVar(value="---")
-        Label(self.fenetre, textvariable=self.var_nom_joueur,
-              font=("Courier", 12, "bold"), bg=bg, fg=bleu
-              ).place(x=20, y=298, width=250)
+        Label(self.fenetre, textvariable=self.var_nom_joueur, font=("Courier", 12, "bold"), bg=bg, fg=bleu).place(x=20, y=298, width=250)
 
         self.var_hp_joueur = StringVar(value="HP : --")
-        Label(self.fenetre, textvariable=self.var_hp_joueur,
-              font=("Courier", 10), bg=bg, fg=fg).place(x=20, y=322, width=250)
+        Label(self.fenetre, textvariable=self.var_hp_joueur, font=("Courier", 10), bg=bg, fg=fg).place(x=20, y=322, width=250)
 
         self.var_stats_joueur = StringVar(value="")
-        Label(self.fenetre, textvariable=self.var_stats_joueur,
-              font=("Courier", 9), bg=bg, fg=fg).place(x=20, y=344, width=250)
+        Label(self.fenetre, textvariable=self.var_stats_joueur, font=("Courier", 9), bg=bg, fg=fg).place(x=20, y=344, width=250)
 
-        Label(self.fenetre, text="HP", font=("Courier", 8), bg=bg, fg=fg
-              ).place(x=20, y=366)
+        Label(self.fenetre, text="HP", font=("Courier", 8), bg=bg, fg=fg).place(x=20, y=366)
         self.barre_joueur = Progressbar(self.fenetre, orient=tk.HORIZONTAL, mode='determinate')
         self.barre_joueur.place(x=20, y=383, width=210, height=14)
 
         # ---- VS au centre ----
-        Label(self.fenetre, text="VS", font=("Courier", 28, "bold"), bg=bg, fg=accent
-              ).place(x=360, y=235, width=100)
+        Label(self.fenetre, text="VS", font=("Courier", 28, "bold"), bg=bg, fg=accent).place(x=360, y=235, width=100)
 
         # ---- CÔTÉ SAUVAGE (droite) ----
-        Label(self.fenetre, text="Pokémon Sauvage :", font=("Courier", 10), bg=bg, fg=fg
-              ).place(x=560, y=55)
+        Label(self.fenetre, text="Pokémon Sauvage :", font=("Courier", 10), bg=bg, fg=fg).place(x=560, y=55)
 
         self.img_sauvage = Label(self.fenetre, bg=bg)
         self.img_sauvage.place(x=630, y=168, width=120, height=120)
 
         self.var_nom_sauvage = StringVar(value="???")
-        Label(self.fenetre, textvariable=self.var_nom_sauvage,
-              font=("Courier", 12, "bold"), bg=bg, fg=accent
-              ).place(x=560, y=298, width=250)
+        Label(self.fenetre, textvariable=self.var_nom_sauvage, font=("Courier", 12, "bold"), bg=bg, fg=accent).place(x=560, y=298, width=250)
 
         self.var_hp_sauvage = StringVar(value="HP : --")
-        Label(self.fenetre, textvariable=self.var_hp_sauvage,
-              font=("Courier", 10), bg=bg, fg=fg).place(x=560, y=322, width=250)
+        Label(self.fenetre, textvariable=self.var_hp_sauvage, font=("Courier", 10), bg=bg, fg=fg).place(x=560, y=322, width=250)
 
         self.var_stats_sauvage = StringVar(value="")
-        Label(self.fenetre, textvariable=self.var_stats_sauvage,
-              font=("Courier", 9), bg=bg, fg=fg).place(x=560, y=344, width=250)
+        Label(self.fenetre, textvariable=self.var_stats_sauvage, font=("Courier", 9), bg=bg, fg=fg).place(x=560, y=344, width=250)
 
-        Label(self.fenetre, text="HP", font=("Courier", 8), bg=bg, fg=fg
-              ).place(x=560, y=366)
+        Label(self.fenetre, text="HP", font=("Courier", 8), bg=bg, fg=fg).place(x=560, y=366)
+        
         self.barre_sauvage = Progressbar(self.fenetre, orient=tk.HORIZONTAL, mode='determinate')
         self.barre_sauvage.place(x=560, y=383, width=210, height=14)
 
         # ---- BOUTONS ----
-        Button(self.fenetre, text="🎲 Lancer le combat",
-               command=self._lancer_combat).place(x=150, y=425, width=190, height=34)
-        Button(self.fenetre, text="⚔️ Attaquer",
-               command=self._attaquer).place(x=150, y=472, width=190, height=34)
-        Button(self.fenetre, text="🔄 Nouveau combat",
-               command=self._nouveau_combat).place(x=480, y=472, width=190, height=34)
+        Button(self.fenetre, text="🎲 Lancer le combat", command=self._lancer_combat).place(x=150, y=425, width=190, height=34)
+
+        Button(self.fenetre, text="⚔️ Attaquer",command=self._attaquer).place(x=150, y=472, width=190, height=34)
+
+        Button(self.fenetre, text="🔄 Nouveau combat", command=self._nouveau_combat).place(x=480, y=472, width=190, height=34)
 
         # ---- JOURNAL ----
-        Label(self.fenetre, text="Journal de combat :", font=("Courier", 9), bg=bg, fg=fg
-              ).place(x=30, y=520)
-        self.log = Text(self.fenetre, bg=self.BG_LOG, fg='#a0d8ef',
-                        font=("Courier", 9), state=tk.DISABLED)
+        Label(self.fenetre, text="Journal de combat :", font=("Courier", 9), bg=bg, fg=fg).place(x=30, y=520)
+
+        self.log = Text(self.fenetre, bg=self.BG_LOG, fg='#a0d8ef', font=("Courier", 9), state=tk.DISABLED)
         self.log.place(x=30, y=538, width=760, height=100)
 
-    # ----------------------------------------------------------
-    # CHARGEMENT DONNÉES
-    # ----------------------------------------------------------
+    # ----------------------------CHARGEMENT DONNÉES----------------------------
 
     def _charger_dresseurs(self):
         self.dresseurs_data = get_liste_dresseurs()
         self.combo_dresseur['values'] = [d[1] for d in self.dresseurs_data]
+
         if self.dresseurs_data:
             self.combo_dresseur.current(0)
             self._on_dresseur_selectionne(None)
@@ -210,9 +186,11 @@ class FenetreCombat:
         idx = self.combo_dresseur.current()
         if idx < 0:
             return
+        
         idDresseur = self.dresseurs_data[idx][0]
         self.pokemon_dresseur_data = get_pokemon_du_dresseur(idDresseur)
         self.combo_pokemon['values'] = [p[1] for p in self.pokemon_dresseur_data]
+
         if self.pokemon_dresseur_data:
             self.combo_pokemon.current(0)
         else:
@@ -226,6 +204,7 @@ class FenetreCombat:
             hex_c = self.BG.lstrip('#')
             bg_rgb = tuple(int(hex_c[i:i+2], 16) for i in (0, 2, 4))
             img_pil = Image.open(lien)
+
             # Conversion RGBA avant resize : préserve l'index de transparence palette
             img_pil = img_pil.convert("RGBA")
             img_pil = img_pil.resize((120, 120), Image.LANCZOS)
@@ -234,13 +213,12 @@ class FenetreCombat:
             photo = ImageTk.PhotoImage(fond)
             label_widget.configure(image=photo, text="")
             label_widget.image = photo
+
         except Exception as e:
             print(f"Image introuvable ({url_image}): {e}")
             label_widget.configure(image="", text="?")
 
-    # ----------------------------------------------------------
-    # LOGIQUE DE COMBAT
-    # ----------------------------------------------------------
+    # ----------------------------LOGIQUE DE COMBAT----------------------------
 
     def _lancer_combat(self):
         idx = self.combo_pokemon.current()
@@ -296,7 +274,7 @@ class FenetreCombat:
         self._maj_barre(self.barre_joueur, self.personnage_joueur.pv, self._hp_joueur_max)
         self._maj_barre(self.barre_sauvage, self.personnage_sauvage.pv, self._hp_sauvage_max)
 
-        # Fin de combat ?
+        # Fin de combat
         j_mort = not self.personnage_joueur.est_vivant()
         s_mort = not self.personnage_sauvage.est_vivant()
         if j_mort and s_mort:
@@ -314,9 +292,7 @@ class FenetreCombat:
         self.combat_en_cours = False
         self.personnage_joueur = None
         self.personnage_sauvage = None
-        for var, val in [(self.var_nom_joueur, "---"), (self.var_nom_sauvage, "???"),
-                         (self.var_hp_joueur, "HP : --"), (self.var_hp_sauvage, "HP : --"),
-                         (self.var_stats_joueur, ""), (self.var_stats_sauvage, "")]:
+        for var, val in [(self.var_nom_joueur, "---"), (self.var_nom_sauvage, "???"),(self.var_hp_joueur, "HP : --"), (self.var_hp_sauvage, "HP : --"), (self.var_stats_joueur, ""), (self.var_stats_sauvage, "")]:
             var.set(val)
         for lbl in [self.img_joueur, self.img_sauvage]:
             lbl.configure(image="", text="")
@@ -325,9 +301,7 @@ class FenetreCombat:
         self.barre_sauvage['value'] = 0
         self._log("🔄 Prêt pour un nouveau combat !")
 
-    # ----------------------------------------------------------
-    # UTILITAIRES
-    # ----------------------------------------------------------
+    # ----------------------------UTILITAIRES----------------------------
 
     def _maj_barre(self, barre, hp_actuel, hp_max):
         if hp_max > 0:
