@@ -1,14 +1,3 @@
-**cursor = sqliteConnection.cursor():**
-
-
-
-Elle utilise une connexion SQLite existante, sqliteConnection est un objet de type connexion (créé en général avec sqlite3.connect(...)).
-Il représente le lien entre un programme Python et la base de données SQLite.
-
-Elle crée un curseur (cursor)
-La méthode .cursor() crée un objet curseur.
-Un curseur sert à envoyer des requêtes SQL à la base de données et à récupérer les résultats.
-Sans curseur, on ne peut pas exécuter de requêtes SQL.
-Elle stocke ce curseur dans la variable cursor
-On va ensuite utiliser cette variable pour travailler avec la base de données.
+Les indexs:
+c'est comme les indexs d'un livre, au lieu de chercher des elements un par un, l'index trouve une correspondance directement et surtout ca evite de copier toute les donnees de la BDD dans python et donc ca libere de la memoire (je suis d'accord ya pas forcement d'interet comme ya que 151 pokemons).
 
